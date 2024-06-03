@@ -1,0 +1,572 @@
+<!doctype html>
+<html>
+    <head>
+        <title>HT for Web TableView Manual</title>
+        <meta charset="UTF-8">    
+        <meta name="viewport" content="user-scalable=yes, width=1024">
+        <style type="text/css"> 
+            h1, h2, h3, h4, h5, h6, p, blockquote {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+                font-size: 13px;
+                line-height: 18px;
+                color: #737373;
+                background-color: white; 
+                margin: 10px 13px 10px 13px;
+            }
+            table {
+                margin: 10px 0 15px 0;
+                border-collapse: collapse;
+            }
+            td,th {	
+                border: 1px solid #ddd;
+                padding: 3px 10px;
+            }
+            th {
+                padding: 5px 10px;	
+            }
+            a {
+                color: #0069d6;
+            }
+            a:hover {
+                color: #0050a3;
+                text-decoration: none;
+            }
+            a img {
+                border: none;
+            }
+            p {
+                margin-bottom: 9px;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                color: #404040;
+                line-height: 36px;
+            }
+            h1 {
+                margin-bottom: 18px;
+                font-size: 30px;
+            }
+            h2 {
+                font-size: 24px;
+            }
+            h3 {
+                font-size: 18px;
+            }
+            h4 {
+                font-size: 16px;
+            }
+            h5 {
+                font-size: 14px;
+            }
+            h6 {
+                font-size: 13px;
+            }
+            hr {
+                margin: 0 0 19px;
+                border: 0;
+                border-bottom: 1px solid #ccc;
+            }
+            blockquote {
+                padding: 13px 13px 21px 15px;
+                margin-bottom: 18px;
+                font-family:georgia,serif;
+                font-style: italic;
+            }
+            blockquote:before {
+                content:"\201C";
+                font-size:40px;
+                margin-left:-10px;
+                font-family:georgia,serif;
+                color:#eee;
+            }
+            blockquote p {
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 18px;
+                margin-bottom: 0;
+                font-style: italic;
+            }
+            code, pre {
+                font-family: Monaco, Andale Mono, Courier New, monospace;
+            }
+            code {
+                background-color: #fee9cc;
+                color: rgba(0, 0, 0, 0.75);
+                padding: 1px 3px;
+                font-size: 12px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+            }
+            pre {
+                display: block;
+                padding: 14px;
+                margin: 0 0 18px;
+                line-height: 16px;
+                font-size: 11px;
+                border: 1px solid #d9d9d9;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            pre code {
+                background-color: #fff;
+                color:#737373;
+                font-size: 11px;
+                padding: 0;
+            }
+            sup {
+                font-size: 0.83em;
+                vertical-align: super;
+                line-height: 0;
+            }
+            * {
+                -webkit-print-color-adjust: exact;
+            }
+            @media screen and (min-width: 914px) {
+                body {
+                    width: 854px;
+                    margin:10px auto;
+                }
+            }
+            @media print {
+                body,code,pre code,h1,h2,h3,h4,h5,h6 {
+                    color: black;
+                }
+                table, pre {
+                    page-break-inside: avoid;
+                }
+            }                        
+            iframe{
+                width: 100%;
+                border: 1px solid #34495E;
+                margin: 0;                
+            }            
+            .logo{
+                vertical-align: middle;
+            }
+
+        </style>        
+        <script>
+            function init() {
+                var logoSrc = 'data:image/png;base64,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',
+                    logos = document.querySelectorAll('.logo'),
+                    i = 0;
+                for (; i < logos.length; i++) {
+                    logos[i].src = logoSrc;
+                }
+                
+                var iframes = document.querySelectorAll('iframe'),
+                    func = function(){};
+                for (i=0; i < iframes.length; i++) {
+                    var iframe = iframes[i];
+                    
+                    // a small hack to make it work on android
+                    iframe.ontouchstart = func;
+                    
+                    var div = document.createElement('div');
+                    div.innerHTML = '<a href="' + iframe.src + '" target="_blank">Run→</a>';
+                    iframe.parentNode.insertBefore(div, iframe);
+                }   
+            }
+        </script>    
+    </head>
+    <body onload="init();">
+        <a href="http://www.hightopo.com"><img class="logo"></a>HT for Web TableView Manual
+        <hr style="margin: 1px 0 20px 0">
+<p>Index</p>
+
+<ul><li><a href="#ref_overview">Overview</a></li><li><a href="#ref_column">Column</a></li><li><a href="#ref_tableheader">Tableheader</a></li><li><a href="#ref_tablepane">TablePane</a></li><li><a href="#ref_tableview">TableView Component</a></li></ul>
+
+<hr/>
+
+<div id="ref_overview"></div>
+
+<h2>Overview</h2>
+
+<p>The <code>HT for Web</code> provides the table component class <code>ht.widget.TableView</code>, which displays the property information of the <code>Data</code> type object in the <code>DataModel</code> container, and supports sorting and filtering functions.</p>
+
+<p>Through <code>tableView = new ht.widget.TableView(dataModel);</code> initialize building a table component object, <code>dataModel</code> parameter is a data model bound to a table component, the table component constructor function will create a new data model for binding when the model is empty.</p>
+
+<p>The <code>getColumnModel()</code> function of the table component returns the column model object, which is essentially a <code>DataModel</code> type object, except that the object is only used to add <code>ht.Column</code> type object, <code>ht.Column</code> type of parent is <code>ht. Data</code>, adds a function interface associated with the attribute definition.</p>
+
+<p>So what the user needs to do is build the <code>ht.Column</code> object based on the attribute information to be displayed, and then added to the columns model returned by the <code>tableView.getColumnModel()</code> function, so that the information about <code>Data</code> in the <code>tableView.getDataModel()</code> model will displayed by the configuration of the <code>ht.Column</code> stored in <code>tableView.getColumnModel()</code>.</p>
+
+<div id="ref_column"></div>
+
+<h2>Column</h2>
+
+<p><code>ht.Column</code> class inherits from <code>ht.Data</code>, you cannot set up a parent-child relationship with the following property functions:</p>
+
+<ul><li><code>getName()</code> and <code>setName(name)</code> Gets and sets <code>name</code> attribute, which combine <code>accessType</code> attributes to achieve access to <code>Data</code> properties</li><li><code>getDisplayName()</code> and <code>setDisplayName(displayName)</code> Gets and sets the column name contents of the header, and display <code>name</code> values if empty</li><li><code>getIcon()</code> and <code>setIcon(&#39;icon&#39;)</code> Gets and sets table header&#39;s column name to the left of the icon displayed</li><li><code>getWidth()</code> and <code>setWidth(80)</code> Gets and sets column width, the default <code>setWidth</code> function allows the minimum width of <code>16</code> to avoid columns too narrow</li><li><code>isVisible()</code> and <code>setVisible(true/false)</code>  Gets and sets whether columns are visible</li><li><code>getColor()</code> and <code>setColor(color)</code> Gets and sets the text color of the column name of the header</li><li><code>isEditable()</code> and <code>setEditable(true/false)</code> Gets and sets whether the column is editable, the default is <code>false</code></li><li><code>isBatchEditable()</code> and <code>setBatchEditable(true/false)</code> Gets and sets whether the column allows more than a batch edit, the default is <code>true</code></li><li><code>getAccessType()</code> and <code>setAccessType(type)</code> Gets and sets the attribute type of the column:<ul><li><code>null</code>: Default type, such as <code>name</code> is <code>age</code>, gets and sets by using <code>getAge()</code> and <code>setAge(98)</code> <code>get/set</code> or <code>is/set</code> </li><li><code>style</code>: Such as <code>name</code> is <code>age</code>, gets and sets by using <code>getStyle(&#39;age&#39;)</code> and <code>setStyle(&#39;age&#39;, 98)</code></li><li><code>field</code>: Such as <code>name</code> is <code>age</code>, gets and sets by using <code>data.age</code> and <code>data.age = 98</code></li><li><code>attr</code>: Such as <code>name</code> is <code>age</code>, gets and sets by using <code>getAttr(&#39;age&#39;)</code> and <code>setAttr(&#39;age&#39;, 98)</code></li></ul></li><li>The <code>valueType</code> value type is used to prompt the component to provide the appropriate <code>renderer</code> rendering, the appropriate editing control, and the necessary type conversions when changing values:<ul><li><code>null</code>: Default type, display as text</li><li><code>string</code>: String type, display as text</li><li><code>boolean</code>: Boolean type, display as check box</li><li><code>color</code>: Color type, displayed in a way that fills the background color</li><li><code>int</code>: Integral type, text editor changes value automatically through <code>parseInt</code> conversion</li><li><code>number</code>: Float type, text editor changes value automatically through <code>parseFloat</code> conversion</li></ul></li><li><code>getAlign()</code> and <code>setAlign(&#39;left&#39;/&#39;center&#39;/&#39;right&#39;)</code> Determines the horizontal alignment of the text rendering, the default is <code>left</code></li><li><code>isNullable()</code> and <code>setNullable(true/false)</code> Determines whether the property is empty, the default is <code>true</code>, set to <code>false</code> to avoid entering <code>null</code> or <code>undefined</code></li><li><code>isEmptiable()</code> and <code>setEmptiable(true/false)</code> Determines whether the property is empty string, the default is <code>false</code>, to avoid entering an empty string, and an empty string into <code>undefined</code></li><li><code>getSortOrder()</code> and <code>setSortOrder(&#39;desc&#39;/&#39;asc&#39;)</code> Gets and sets column ascending and descending order state, click on the table header to automatically change its value</li><li><code>isSortable()</code> and <code>setSortable(true/false)</code> Gets and sets columns can be sorted for flags, the default is <code>true</code></li><li><code>getSortFunc()</code> and <code>setSortFunc(function(v1, v2, d1, d2){return 1/-1/0})</code> Gets and sets column sort function for custom sort logic</li><li><code>column.getValue = function(data, column, view){return value}</code> Customize get value function</li><li><code>column.setValue = function(data, column, value, view){}</code> Customize set value function</li><li><code>column.drawCell = function (g, data, selected, column, x, y, w, h, view){}</code> Customize cell rendering</li><li><code>column.formatValue = function(value)</code> is generally used to format digital conversions more easily, and can be overloaded with custom</li><li><code>column.getToolTip = function(data, tableView)</code> Custom tooltip content</li></ul>
+
+<p>Enumeration is a common property-editing selection application, rendering the drop-down list at edit time, so <code>HT</code> takes a lot of scenarios for enumerated type attributes, <code>setEnum(params)</code> functions to set a single <code>json</code> parameter, or to set parameter information <code>setEnum(enumValues, enumLabels, enumIcons, enumEditable, enumStrict)</code>, the following are common cases:</p>
+
+<ul><li><code>setEnum([&#39;C&#39;,&#39;C++&#39;,&#39;JS&#39;])</code> Passing a numerical array    </li><li><code>setEnum([1,2,3], [&#39;C&#39;,&#39;C++&#39;,&#39;JS&#39;])</code> Passing a numeric and text array  </li><li><code>setEnum([1,2,3], [&#39;C&#39;,&#39;C++&#39;,&#39;JS&#39;], [&#39;c_icon&#39;, &#39;c++_icon&#39;, &#39;js_icon&#39;])</code> Passing values, text and icon arrays</li><li><code>setEnum({values:[1,2,3]})</code> Passing a numeric array</li><li><code>setEnum({values:[1,2,3], labels:[&#39;C&#39;,&#39;C++&#39;,&#39;JS&#39;]})</code> Passing values and text array  </li><li><code>setEnum({values:[1,2,3], labels:[&#39;C&#39;,&#39;C++&#39;,&#39;JS&#39;], icons:[&#39;c_icon&#39;, &#39;c++_icon&#39;, &#39;js_icon&#39;]})</code> Passing values, text and icon arrays</li></ul>
+
+<blockquote><p><code>HT</code> automatically detects whether the user has introduced <a href="../../plugin/form/ht-form-guide.html">Form Plugins</a>, if the <code>ht.widget.ComboBox</code> component of the form plug-in is introduced, then using it as an editor, otherwise using the <code>select</code> component of the native <code>html</code>, because of the native <code>html</code> <code>select</code> drop-down component is text-only, so many of the parameters above work only for the <code>ht.widget.ComboBox</code> component.</p></blockquote>
+
+<ul><li><code>enumValues</code>: Enum value array</li><li><code>enumLabels</code>: Enum text array</li><li><code>enumIcons</code>: Enum icon array</li><li><code>enumEditable</code>: Enum whether the drop-down editor allowed input, the default is <code>false</code></li><li><code>enumStrict</code>: Does the value match use strict <code>===</code> to compare, the default is <code>true</code>, if <code>false</code> uses <code>===</code> to compare</li></ul>
+
+<p><a href="../../plugin/form/ht-form-guide.html">Form Plug-in</a> <code>ht.widget.Slider</code> is also a common and easy-to-use editing component, and this <code>HT</code> also adds the setting of the corresponding column properties of the type, through <code>getSlider()</code> and <code>setSlider(parmas)</code> can specify the slide bar information that the column renders in edit state.</p>
+
+<p><iframe src="examples/example_column.html" style="height:150px"></iframe></p>
+
+<p>The above example warning level information stored in the <code>alarmSeverity</code> property of the <code>attr</code> type of the <code>Data</code> object, the first column set the ·setSortFunc<code> sort function, to set the </code>Cleared<code> alarm level to the top, the other alarm level value higher in the upper layer of the effect, also called </code>tableView.setSortColumn` specifies the current row sequence.</p>
+
+<pre><code>var column = new ht.Column();
+column.setName(&quot;alarmSeverity&quot;);
+column.setAccessType(&#39;attr&#39;);
+column.setSortFunc(function(v1, v2, d1, d2){
+    if(v1 === v2){
+        return 0;
+    }
+    // keep &#39;Cleared&#39; on top
+    if(v1 === 0){
+        return -1;
+    }
+    if(v2 === 0){
+        return 1;
+    }
+    // compare value
+    if(v1 &gt; v2){
+        return -1;
+    }else{
+        return 1;
+    }                  
+});
+columnModel.add(column);                
+tableView.setSortColumn(column);</code></pre>
+
+<p>The second column overloads the <code>column.getValue</code> custom to get the value, depending on the <code>attr</code> type&#39;s property <code>alarmSeverity</code> value, the corresponding alert level color is found through the configuration of the <code>map</code> object. By setting <code>valueType</code> as the <code>color</code> type, <code>HT</code> automatically renders the property in a way filled with a cell background color.</p>
+
+<pre><code>column = new ht.Column();
+column.setValueType(&#39;color&#39;);
+column.getValue = function(data){
+    var alarmSeverity = data.getAttr(&#39;alarmSeverity&#39;),
+        color = map[alarmSeverity].color;
+    return tableView.isSelected(data) ? ht.Default.darker(color) : color;
+};
+columnModel.add(column);</code></pre>
+
+<p>The third column overloads the <code>column.drawCell</code> custom cell rendering effect, which returns the row index <code>tableView.getRowIndex(data)</code>, draw the index information between cells by <code>ht.Default.drawText</code> and draws a different row background color based on the parity of the index.</p>
+
+<pre><code>column = new ht.Column();             
+column.drawCell = function (g, data, selected, column, x, y, w, h, tableView) {
+    var index = tableView.getRowIndex(data);
+
+    // draw background
+    var color = index % 2 === 0 ? &#39;#ECF0F1&#39; : &#39;#3498DB&#39;;
+    g.fillStyle = selected ? ht.Default.darker(color) : color;
+    g.beginPath();
+    g.rect(x, y, w, h);
+    g.fill();
+
+    // draw label
+    color = selected ? &#39;white&#39; : &#39;black&#39;;
+    ht.Default.drawText(g, &#39;row &#39; + index, null, color, x, y, w, h, &#39;center&#39;);
+};
+columnModel.add(column);</code></pre>
+
+<p>Column fourth overloads the <code>column.drawCell</code> custom cell rendering effect, according to the <code>alarmSeverity</code> value of <code>attr</code>, find the corresponding alarm level name and color information for rendering by the <code>map</code> object&#39;s configuration.</p>
+
+<pre><code>column = new ht.Column();
+column.setWidth(200);    
+column.drawCell = function (g, data, selected, column, x, y, w, h, tableView) {
+    var alarmSeverity = data.getAttr(&#39;alarmSeverity&#39;),
+        info = map[alarmSeverity],
+        color = info.color;
+
+    // draw background                    
+    g.fillStyle = selected ? ht.Default.darker(color) : color;
+    g.beginPath();
+    g.rect(x, y, w, h);
+    g.fill();
+
+    // draw label     
+    color = selected ? &#39;white&#39; : &#39;black&#39;;
+    ht.Default.drawText(g, info.name, null, color, x, y, w, h, &#39;center&#39;);
+};
+columnModel.add(column);</code></pre>
+
+<div id="ref_tableheader"></div>
+
+<h3>Tableheader</h3>
+
+<p><code>ht.widget.TableHeader</code> table header components are often combined with <code>TableView</code> and <code>TreeTableView</code> to present <code>Column</code> information and provide <code>Column</code> with positive and negative sort switches, column widths stretching, And the change of the column order position.</p>
+
+<p>Through <code>tableHeader = new ht.widget.TableHeader(tableView/treeTableView);</code> initialize building a header component object that can introduce <code>tableView</code> or <code>treeTableView</code> table component object is bound, <code>tableHeader</code> will automatically listen to the column model of <code>tableView.getColumnModel()</code>, when the user clicks the sort, or the column width change and the column order change and so on, the corresponding modification to the column model <code>Column</code> attribute, the header component is automatically refreshed when the user modifies the <code>Column</code> attribute through the <code>API</code>.</p>
+
+<ul><li><code>getSortDescIcon()</code> and <code>setSortDescIcon(icon)</code> Gets and sets header column descending icon</li><li><code>getSortAscIcon()</code> and <code>setSortAscIcon(icon)</code> Gets and sets table header column ascending icon</li><li><code>getMoveBackground()</code> and <code>setMoveBackground(color)</code> Gets and sets column header background color when moving a column</li><li><code>getInsertColor()</code> and <code>setInsertColor(color)</code> Gets and sets the hint color of the insert position when moving a column</li><li><code>isColumnLineVisible()</code> and <code>setColumnLineVisible(true/false)</code> Gets and sets whether the column lines are visible, the default is <code>true</code></li><li><code>isColumnLineColor()</code> and <code>setColumnLineColor(color)</code> Gets and sets line color</li><li><code>isResizable()</code> and <code>setResizable(true/false)</code> Gets and sets whether the column widths are changable, the default is <code>true</code></li><li><code>isMovable()</code> and <code>setMovable(true/false)</code> Gets and sets whether the column order allow movement change, the default is <code>true</code>           </li><li><code>getTableView()</code> Gets table components bound in table header</li><li><code>getLabel(column)</code> Gets the header text information, and the default returns <code>column.toLabel()</code>, which can be overloaded with custom</li><li><code>getLabelFont(column)</code> Gets the header font, which can be overloaded with custom</li><li><code>getLabelColor(column)</code> Gets the header color information, and the default returns <code>column.getColor()</code>, which can be overloaded with custom</li><li><code>getLabelAlign(column)</code> Gets the column header text horizontal alignment, the <code>column.getAlign()</code> value is considered and can be overloaded with custom</li><li><code>drawColumn(g, column, x, y, width, height)</code> Draw column headers, which can be overloaded with custom</li></ul>
+
+<p><iframe src="examples/example_tableheader.html" style="height:140px"></iframe></p>
+
+<p>The above example constructs two <code>ht.widget.TableHeader</code> header components that bind the same <code>tableView</code> object, so that two headers can achieve an interactive synchronization effect.</p>
+
+<pre><code>tableHeader1 = new ht.widget.TableHeader(tableView);
+tableHeader2 = new ht.widget.TableHeader(tableView);
+
+borderPane = new ht.widget.BorderPane();
+borderPane.setTopView(tableHeader1);
+borderPane.setCenterView(tableView);
+borderPane.setBottomView(tableHeader2);</code></pre>
+
+<p><code>TableView</code> provides a function of <code>addColumns</code> and <code>setColumns</code>, which can be easily added <code>Column</code> by <code>json</code> format in bulk, and the following code is used in the above example:</p>
+
+<pre><code>tableView.addColumns([
+    {
+        displayName: &#39;Severity&#39;,
+        name: &#39;alarmSeverity&#39;,
+        accessType: &#39;attr&#39;,
+        sortOrder: &#39;desc&#39;,
+        tag: &#39;sortableColumn&#39;,
+        sortFunc: function(v1, v2, d1, d2){
+            if(v1 === v2){
+                return 0;
+            }
+            // keep &#39;Cleared&#39; on top
+            if(v1 === 0){
+                return -1;
+            }
+            if(v2 === 0){
+                return 1;
+            }
+            // compare value
+            if(v1 &gt; v2){
+                return -1;
+            }else{
+                return 1;
+            }                  
+        }
+    },
+    // ...                           
+]);</code></pre>
+
+<p>In the example, only the first column allows sorting, and the <code>sortable</code> property of the other columns is set to <code>false</code>, which is used to sort the column in order to initialize the display, and the code specifically sets the <code>tag</code> logo for the first column, through <code>tableView.getColumnModel().getDataByTag(&#39; sortableColumn&#39;)</code> finds the column object.</p>
+
+<pre><code>tableView.setSortColumn(tableView.getColumnModel().getDataByTag(&#39;sortableColumn&#39;));</code></pre>
+
+<blockquote><p>Note <code>tableView.getColumnModel()</code> is the <code>DataModel</code>, <code>Column</code> is also inherited from <code>Data</code> type, so have the <code>tag</code> and other related operations of data container.</p></blockquote>
+
+<div id="ref_tablepane"></div>
+
+<h2>TablePane</h2>
+
+<p>The previous section example uses the <code>BorderPane</code> container to combine <code>TableView</code> and <code>TableHeader</code> objects, most of which are in need of integrated use, for which <code>HT</code> provides <code>ht.widget.TablePane</code> and <code>ht.widget.TreeTablePane</code>, the two components built the <code>TableView</code> and <code>TreeTableView</code> objects separately and also built a <code>TableHeader</code> object, the <code>TableHeader</code> component displayed in the top, and the <code>TableView</code> and <code>TreeTableView</code> components displayed in the bottom.</p>
+
+<p><code>ht.widget.TablePane</code> and <code>ht.widget.TreeTablePane</code> constructors can introduce the <code>TableView</code> and <code>TreeTableView</code> objects, and automatically create a <code>TableView</code> and <code>TreeTableView</code> objects, other common functions are as follows:</p>
+
+<ul><li><code>getTableView()</code> Gets table components</li><li><code>getTableHeader()</code> Gets table header components</li><li><code>getDataModel()</code> Gets the data model of the table component bindings</li><li><code>getColumnModel()</code> Gets the column model of the table component bindings</li><li><code>addColumns(array)</code> Using <code>json</code> array parameters to add column information in bulk</li><li><code>setColumns(array)</code> Using <code>json</code> array parameters to add column information in bulk, clear all column while the parameter is empty</li></ul>
+
+<p><iframe src="examples/example_tablepane.html" style="height:200px"></iframe></p>
+
+<p>The above example inherits from <code>ht.Column</code> expands <code>com.hightopo.LanguageColumn</code> and <code>com.hightopo.LanguageColumn</code> two column types, the primary purpose is to initialize the necessary parameter configuration information in a constructor, that can avoid the large number of duplicate configuration information when the same type column needs to be defined in many places, and facilitates the uniform modification of parameter information.</p>
+
+<pre><code>com = {};
+com.hightopo = {}; 
+
+var LanguageColumn = com.hightopo.LanguageColumn = function(){
+    LanguageColumn.superClass.constructor.call(this);                    
+    this.setName(&#39;Language&#39;);
+    this.setAccessType(&#39;attr&#39;);
+    this.setEnum({values: [1, 2, 3, 4, 5, 6], labels: [&#39;C&#39;, &#39;C++&#39;, &#39;Java&#39;, &#39;JS&#39;, &#39;AS&#39;, &#39;C#&#39;]});
+    this.setEditable(true);
+    this.setSortFunc(function(v1, v2, d1, d2){
+        if(v1 === v2){
+            return 0;
+        }
+        if(v1 === 2){
+            return 1;
+        }
+        if(v2 === 2){
+            return -1;
+        }
+        if(v1 === 5){
+            return -1;
+        }
+        if(v2 === 5){
+            return 1;
+        }
+        return v1 - v2;
+    });                    
+}; 
+ht.Default.def(&#39;com.hightopo.LanguageColumn&#39;, ht.Column, {
+});     
+
+var SexColumn = com.hightopo.SexColumn = function(){
+    SexColumn.superClass.constructor.call(this);                    
+    this.setName(&#39;Sex&#39;);
+    this.setAccessType(&#39;attr&#39;);
+    this.setEnum([&#39;Male&#39;, &#39;Female&#39;]);                   
+    this.setEditable(true);                    
+}; 
+ht.Default.def(&#39;com.hightopo.SexColumn&#39;, ht.Column, {
+});  </code></pre>
+
+<p>With the above class encapsulation, the configuration of the column properties reduces many parameters, notice the <code>className</code> keyword in the following code, the <code>HT</code> will be based on this <code>className</code> special keyword information to replace the default <code>ht.Column</code> type, the attribute component also replaces the default <code>ht.Property</code> type by <code>className</code> special keyword information.</p>
+
+<pre><code>tablePane.addColumns([
+    {
+        name: &#39;id&#39;,
+        width: 60,
+        tag: &#39;id&#39;
+    },
+    {
+        className: &#39;com.hightopo.LanguageColumn&#39;,
+        width: 100,
+        tag: &#39;language&#39;
+    },
+    {
+        className: &#39;com.hightopo.SexColumn&#39;,
+        width: 100,
+        tag: &#39;sex&#39;
+    }
+]);
+
+propertyView.addProperties([
+    {
+        name: &#39;id&#39;
+    },
+    {
+        className: &#39;com.hightopo.LanguageProperty&#39;,
+        editable: true
+    },
+    {
+        className: &#39;com.hightopo.SexProperty&#39;,
+        editable: true
+    }                    
+]);</code></pre>
+
+<p>By <code>tablePane.getTableHeader().setResizable(false)</code>, the header is set to an immutable column width:</p>
+
+<pre><code>tablePane.getTableHeader().setResizable(false);</code></pre>
+
+<p>Through the <code>tablePane.addViewListener</code> to isten <code>tablePane</code> component event, when the <code>beginValidate</code> event is triggered, each column width is allocated according to the current component widths, and the <code>tag</code> parameter has been set while defined <code>column</code>, so that the corresponding column can be found through <code>columnModel.getDataByTag(&#39;language&#39;)</code>:</p>
+
+<pre><code>tablePane.addViewListener(function(e){
+    if(e.kind === &#39;beginValidate&#39;){
+        var columnModel = tablePane.getColumnModel(),
+            width = tablePane.getWidth();
+        columnModel.getDataByTag(&#39;id&#39;).setWidth(width * 0.2);
+        columnModel.getDataByTag(&#39;language&#39;).setWidth(width * 0.4);
+        columnModel.getDataByTag(&#39;sex&#39;).setWidth(width * 0.4);                        
+    }
+});</code></pre>
+
+<div id="ref_tableview"></div>
+
+<h2>TableView</h2>
+
+<p>Table component class <code>ht.widget.TableView</code> main configurable properties and functions are as follows:</p>
+
+<ul><li><code>enableToolTip()</code> and <code>disableToolTip()</code> Enable and disable the tooltip</li><li><code>isDisabled()</code> and <code>setDisabled(true/false, iconURL)</code> Gets and sets the entire component in an unusable state</li><li><code>addTopPainter(func)</code> and <code>removeTopPainter(func)</code> Adds and removes top-level painter <code>function(g){...}</code></li><li><code>addBottomPainter(func)</code> and <code>removeBottomPainter(func)</code> Adds and removes bottom-level painter <code>function(g){...}</code></li><li><code>isEditable()</code> and <code>setEditable(true/false)</code> Sets whether the property editable, the default is <code>false</code></li><li><code>isBatchEditable()</code> and <code>setBatchEditable(true/false)</code> Sets whether this property allows more than a batch edit, the default is <code>true</code></li><li><code>getRowHeight()</code> and <code>setRowHeight(20)</code> Gets and sets row height</li><li><code>isRowLineVisible()</code> and <code>setRowLineVisible(true/false)</code> Gets and sets whether line lines are visible, the default is <code>true</code></li><li><code>getRowLineColor()</code> and <code>setRowLineColor(color)</code> Gets and sets row line color</li><li><code>isColumnLineVisible()</code> and <code>setColumnLineVisible(true/false)</code> Gets and sets whether the column line is visible, the default is <code>true</code></li><li><code>getColumnLineColor()</code> and <code>setColumnLineColor(color)</code> Gets and sets the column line color</li><li><code>getSortColumn()</code> and <code>setSortColumn(column)</code> Gets and sets the current row sequence</li><li><code>getSortFunc()</code> and <code>setSortFunc(sortFunc)</code> Gets and sets the sort function, the default value is empty, and its value works without <code>sortColumn</code></li><li><code>getVisibleFunc()</code> and <code>setVisibleFunc()</code> Gets and sets visible filters, which can filter <code>data</code> objects in <code>DataModel</code></li><li><code>getScrollBarColor()</code> and <code>setScrollBarColor(color)</code> Gets and sets scroll bar color</li><li><code>getScrollBarSize()</code> and <code>setScrollBarSize(6)</code> Gets and sets the scroll bar width</li><li><code>isAutoHideScrollBar()</code> and <code>setAutoHideScrollBar(true/false)</code> Gets and sets whether the scroll bar is automatically hidden and the default is <code>true</code></li><li><code>isCheckModel()</code> and <code>setCheckMode(true/false)</code> Gets and sets whether the <code>check</code> mode, the default is <code>false</code>, if <code>true</code>, automatically inserts <code>checkColumn</code> column</li><li><code>getColumnModel()</code> Table component built-in a <code>DataModel</code> type column model for storing <code>column</code> object information</li><li><code>onColumnClicked(column)</code> Called when header has been clicked, can be overloaded for subsequent processing, such as remote sorting function</li><li><code>getCheckIcon(data)</code> Returns the <code>Check</code> icon correspond to the <code>data</code> object, which can be overloaded with custom <code>check</code> icon, which is valid in <code>checkMode</code> mode</li><li><code>getFocusData()</code>, <code>setFocusData(data)</code> and <code>setFocusDataById(id)</code> In <code>checkMode</code>, in addition to the <code>check</code> state, there can be clicked on the line of the <code>focus</code> status</li><li><code>getDataAt(pointOrEvent)</code> Inputting logical coordinate point or interactive event <code>event</code> parameter, returns corresponding <code>data</code> object or null</li><li><code>onDataDoubleClicked(data)</code> Called when the <code>data</code> row is double-clicked, can be overloaded to respond to the double-click event    </li><li><code>onDataClicked(data)</code> Called when the <code>data</code> row is clicked, can be overloaded to respond to the click event             </li><li><code>getLabelFont(data, column, value)</code> Returns the corresponding cell text font, which can be overloaded with custom</li><li><code>getLabelColor(data, column, value)</code> Returns the corresponding cell text color, which can be overloaded with custom</li><li><code>getSelectBackground(data)</code> and <code>setSelectBackground(color)</code> Gets and sets row selected background color</li><li><code>getStartRowIndex()</code> Returns the starting row index of the currently visible area</li><li><code>getEndRowIndex()</code> Returns the end row index of the currently visible area</li><li><code>getRowDatas()</code> Returns an array of currently displayed <code>Data</code> objects that have been sorted and filtered</li><li><code>getRowIndex(data)</code> Returns the row index where the <code>data</code> object is located</li><li><code>getRowSize()</code> Returns the total number of currently visible rows</li><li><code>isVisible(data)</code> Determines whether the <code>data</code> object is visible and can be overloaded with custom</li><li><code>getDataModel()</code> Gets the binding <code>DataModel</code></li><li><code>setDataModel(dataModel)</code> Binding new <code>DatModel</code></li><li><code>makeVisible(data)</code> This function triggers the component to scroll to the visible area where the <code>data</code> object appears</li><li><code>invalidateModel()</code> This function triggers the component reordering filter loading data, and the generic component is automatically called unless the data changes but the event is not dispatched</li><li><code>redraw()</code> Redraw refresh, note that the function does not trigger a reload of the data model</li><li><code>invalidateData(data)</code> Calls the function to redraw the row where the <code>data</code> object is located</li><li><code>drawRowBackground(g, data, selected, x, y, width, height)</code> Draws a row background color, only when the row is selected to fill the selected background color in default, can be overloaded with custom</li><li><code>drawCell(g, data, selected, column, x, y, width, height)</code> Draws cells and can be overloaded with custom cell rendering</li><li><code>drawCheckColumnCell(g, data, selected, column, x, y, width, height, view)</code> Draws <code>check</code> column cells, which can be overloaded with custom</li><li><code>isCellEditable(data, column)</code> Determines whether cells are editable and can be overloaded with custom</li><li><code>getCurrentSortFunc()</code> The function defaults return the <code>sortFunc</code> function and returns its corresponding sort function when <code>sortColumn</code> is not empty</li><li><code>handleDragAndDrop(event, state)</code> The function defaults to NULL, and if the function is overloaded, the <code>pan</code> component feature will be closed<ul><li><code>event</code> Mouse or <code>Touch</code> interaction event</li><li><code>state</code> Current status, there will be <code>prepare</code>-<code>begin</code>-<code>between</code>-<code>end</code> four processes</li></ul></li></ul>
+
+<p>The following is the default implementation of the <code>getCurrentSortFunc</code> function, while called the <code>sortFunc</code> of the <code>TableView</code>, the two  parameters are <code>d1</code> and <code>d2</code>, two different <code>Data</code> objects, while called <code>Column</code> <code>sortFunc</code> is introduced the <code>v1,v2,d1,d2</code> four parameters, that is, the first two parameters of the <code>Data</code> object corresponding to the value of the column.</p>
+
+<pre><code>getCurrentSortFunc: function () {
+    var column = this._sortColumn;
+    if (column &amp;&amp; column.isSortable()) {
+        var func = column.getSortFunc(),
+                tableView = this,
+                order = &#39;asc&#39; === column.getSortOrder() ? 1 : -1;            
+        if (!func) {
+            func = ht.Default.sortFunc;
+        }
+        return function (d1, d2) {
+            var v1 = tableView.getValue(d1, column),
+                v2 = tableView.getValue(d2, column);
+            return func.call(tableView, v1, v2, d1, d2) * order;
+        };
+    }
+    return this._sortFunc;
+}</code></pre>
+
+<p><iframe src="examples/example_filter.html" style="height:270px"></iframe></p>
+
+<p>The following code uses the <code>tableHeader.getView().style</code> to get the bottom <code>div</code> component of the header, using the <code>css</code> <code>repeat-x</code> to tile the progressive color background.</p>
+
+<pre><code>tableHeader = tablePane.getTableHeader();
+tableHeader.getView().style.background = &#39;url(images/header.png) repeat-x&#39;;</code></pre>
+
+<p>The following code overloads the <code>drawRowBackground</code> function, drawing the effect of the table row alternating zebra.</p>
+
+<pre><code>tableView.drawRowBackground = function(g, data, selected, x, y, width, height){
+    if(tableView.isSelected(data)){
+        g.fillStyle = &#39;#87A6CB&#39;;
+    }
+    else if(tableView.getRowIndex(data) % 2 === 0){
+        g.fillStyle = &#39;#F1F4F7&#39;;
+    }
+    else{
+        g.fillStyle = &#39;#FAFAFA&#39;;
+    }
+    g.beginPath();
+    g.rect(x, y, width, height);
+    g.fill();
+};</code></pre>
+
+<p>The following code sets the visible filter, the filter determines whether the <code>Data</code> object is visible by the element selection state of the <code>toolbar</code>, the filter only set once, and the filter rule changes as the toolbar state changes, but the state of the toolbar element does not distribute any events. So the <code>action</code> of the tool bar button shows that the <code>tableView.invalidateModel();</code> notification table is being updated for data reload.</p>
+
+<pre><code>tableView.setVisibleFunc(function(data){                    
+    var nation = data.a(&#39;nation&#39;),
+        sex = data.a(&#39;sex&#39;);                    
+    // filter nation 
+    if(!toolbar.getItemById(&#39;nation-all&#39;).selected){
+        if(toolbar.getItemById(&#39;uk&#39;).selected &amp;&amp; nation !== 0){
+            return false;
+        }
+        if(toolbar.getItemById(&#39;usa&#39;).selected &amp;&amp; nation !== 1){
+            return false;
+        }
+        if(toolbar.getItemById(&#39;mexico&#39;).selected &amp;&amp; nation !== 2){
+            return false;
+        }
+    } 
+    // filter sex
+    if(!toolbar.getItemById(&#39;sex-all&#39;).selected){
+        if(toolbar.getItemById(&#39;man&#39;).selected &amp;&amp; sex !== 0){
+            return false;
+        }
+        if(toolbar.getItemById(&#39;woman&#39;).selected &amp;&amp; sex !== 1){
+            return false;
+        }
+    }
+    return true;
+});</code></pre>
+
+<p>The following code overloads the <code>drawCell</code> function in the added column, through <code>ht.Default.drawStretchImage</code> function draws the corresponding icon at the center of the cell, and the third parameter of the <code>drawStretchImage</code> function can be introduced in the type of <code>fill</code>, <code>uniform</code> or <code>centerUniform</code>.</p>
+
+<pre><code>tablePane.addColumns([
+    {
+        name: &#39;index&#39;,
+        displayName: &#39;Index&#39;,
+        accessType: &#39;attr&#39;,
+        align: &#39;center&#39;
+    },
+    {
+        name: &#39;nation&#39;,
+        displayName: &#39;Nation&#39;,
+        accessType: &#39;attr&#39;,
+        align: &#39;center&#39;,
+        drawCell: function (g, data, selected, column, x, y, w, h, view) {
+            var image = ht.Default.getImage(&#39;images/&#39; + nations[data.a(&#39;nation&#39;)] + &#39;.png&#39;);
+            ht.Default.drawStretchImage(g, image, &#39;centerUniform&#39;, x, y, w, h);
+        }
+
+    },
+    {
+        name: &#39;sex&#39;,
+        displayName: &#39;Sex&#39;,
+        accessType: &#39;attr&#39;,
+        align: &#39;center&#39;,
+        drawCell: function (g, data, selected, column, x, y, w, h, view) {
+            var image = ht.Default.getImage(&#39;images/&#39; + sexs[data.a(&#39;sex&#39;)] + &#39;.png&#39;);
+            ht.Default.drawStretchImage(g, image, &#39;centerUniform&#39;, x, y, w, h);
+        }
+    }
+]);</code></pre>    <hr id="contact" style="margin: 20px 0 1px 0">
+    <a href="http://www.hightopo.com"><img class="logo"></a>Welcome to contact us <a href="mailto:service@hightopo.com">service@hightopo.com</a>
+</body>
+</html>

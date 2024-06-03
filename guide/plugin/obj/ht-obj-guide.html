@@ -1,0 +1,384 @@
+<!doctype html>
+<html>
+    <head>
+        <title>HT for Web OBJ Manual</title>
+        <meta charset="UTF-8">    
+        <meta name="viewport" content="user-scalable=yes, width=1024">
+        <style type="text/css"> 
+            h1, h2, h3, h4, h5, h6, p, blockquote {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+                font-size: 13px;
+                line-height: 18px;
+                color: #737373;
+                background-color: white; 
+                margin: 10px 13px 10px 13px;
+            }
+            table {
+                margin: 10px 0 15px 0;
+                border-collapse: collapse;
+            }
+            td,th {	
+                border: 1px solid #ddd;
+                padding: 3px 10px;
+            }
+            th {
+                padding: 5px 10px;	
+            }
+            a {
+                color: #0069d6;
+            }
+            a:hover {
+                color: #0050a3;
+                text-decoration: none;
+            }
+            a img {
+                border: none;
+            }
+            p {
+                margin-bottom: 9px;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                color: #404040;
+                line-height: 36px;
+            }
+            h1 {
+                margin-bottom: 18px;
+                font-size: 30px;
+            }
+            h2 {
+                font-size: 24px;
+            }
+            h3 {
+                font-size: 18px;
+            }
+            h4 {
+                font-size: 16px;
+            }
+            h5 {
+                font-size: 14px;
+            }
+            h6 {
+                font-size: 13px;
+            }
+            hr {
+                margin: 0 0 19px;
+                border: 0;
+                border-bottom: 1px solid #ccc;
+            }
+            blockquote {
+                padding: 13px 13px 21px 15px;
+                margin-bottom: 18px;
+                font-family:georgia,serif;
+                font-style: italic;
+            }
+            blockquote:before {
+                content:"\201C";
+                font-size:40px;
+                margin-left:-10px;
+                font-family:georgia,serif;
+                color:#eee;
+            }
+            blockquote p {
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 18px;
+                margin-bottom: 0;
+                font-style: italic;
+            }
+            code, pre {
+                font-family: Monaco, Andale Mono, Courier New, monospace;
+            }
+            code {
+                background-color: #fee9cc;
+                color: rgba(0, 0, 0, 0.75);
+                padding: 1px 3px;
+                font-size: 12px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+            }
+            pre {
+                display: block;
+                padding: 14px;
+                margin: 0 0 18px;
+                line-height: 16px;
+                font-size: 11px;
+                border: 1px solid #d9d9d9;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            pre code {
+                background-color: #fff;
+                color:#737373;
+                font-size: 11px;
+                padding: 0;
+            }
+            sup {
+                font-size: 0.83em;
+                vertical-align: super;
+                line-height: 0;
+            }
+            * {
+                -webkit-print-color-adjust: exact;
+            }
+            @media screen and (min-width: 914px) {
+                body {
+                    width: 854px;
+                    margin:10px auto;
+                }
+            }
+            @media print {
+                body,code,pre code,h1,h2,h3,h4,h5,h6 {
+                    color: black;
+                }
+                table, pre {
+                    page-break-inside: avoid;
+                }
+            }                        
+            iframe{
+                width: 100%;
+                border: 1px solid #34495E;
+                margin: 0;                
+            }            
+            .logo{
+                vertical-align: middle;
+            }
+
+        </style>        
+        <script>
+            function init() {
+                var logoSrc = 'data:image/png;base64,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',
+                    logos = document.querySelectorAll('.logo'),
+                    i = 0;
+                for (; i < logos.length; i++) {
+                    logos[i].src = logoSrc;
+                }
+                
+                var iframes = document.querySelectorAll('iframe'),
+                    func = function (){};
+                for (i=0; i < iframes.length; i++) {
+                    var iframe = iframes[i];
+                    
+                    // a small hack to make it work on android
+                    iframe.ontouchstart = func;
+                    
+                    var div = document.createElement('div');
+                    div.innerHTML = '<a href="' + iframe.src + '" target="_blank">Run→</a>';
+                    iframe.parentNode.insertBefore(div, iframe);
+                }   
+            }
+        </script>    
+    </head>
+    <body onload="init();">
+        <a href="http://www.hightopo.com"><img class="logo"></a>HT for Web OBJ Manual
+        <hr style="margin: 1px 0 20px 0">
+<p>Index</p>
+
+<ul><li><a href="#ref_overview">Overview</a></li><li><a href="#ref_objformat">OBJ Format</a></li><li><a href="#ref_parseobj">Parse OBJ</a></li><li><a href="#ref_importmodel">Import Model</a>    <ul><li><a href="#ref_ajax">Load AJAX</a></li><li><a href="#ref_loadobj">loadObj Function</a></li><li><a href="#ref_string">Insert String</a></li></ul></li><li><a href="#ref_doorwindow">Door and Window</a></li></ul>
+
+<hr/>
+
+<div id="ref_overview"></div>
+
+<h2>Overview</h2>
+
+<p>The <code>HT for 3D Web</code> predefined a variety of 3D models and can building more styling models by <code>API</code> describes in <a href="../../plug-in/modeling/ht-modeling-guide.html">Modeling Manual</a>, <code>HT</code> also provides import the <code>3D</code> model format files feature of <a href="http://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a>.</p>
+
+<p>Importing <code>OBJ</code> format functionality requires the introduction of <code>ht-obj.js</code> plug-in expansion pack, most examples of this manual are due to the need to read <code>OBJ</code> files, the browser has cross-domain security restrictions, so you need to publish through the <code>Web</code> way to read this manual, or modify the browser parameters, such as for <code>Chrome</code> browser can adding <a href="http://www.chrome-allow-file-access-from-file.com/">--allow-file-access-from-files</a> startup parameters.</p>
+
+<p><iframe src="examples/example_path.html" style="height:400px"></iframe></p>
+
+<div id="ref_objformat"></div>
+
+<h2>OBJ Format</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a>  is a <code>3D</code> model file format, almost all the mainstream <code>3D</code> modeling tools, such as <code>Blender</code>, <code>3ds Max</code> and <code>Maya</code> support <code>OBJ</code> format export.</p>
+
+<p><code>OBJ</code> files are generally with <code>.obj</code> suffix name, describes the model vertex, plane and tile coordinates and other geometric models related information, and the model of the tile and color materials such as information, then by another <code>MTL</code> material file to descript, generally with &#39;.mtl &#39; suffix name.</p>
+
+<p>The <code>OBJ</code> file sample fragment as follows, <code>v</code> represents the vertex information, <code>f</code> represents the surface information, <code>usemtl</code> represents the <code>material3</code> material information described by the external <code>MTL</code> file in the following description model:</p>
+
+<pre><code>v 1.187283 0.016532 0.652852
+v 1.187283 0.001827 1.045301
+v 1.187283 0.155480 0.618752
+v 1.187283 0.106104 1.046487
+v 1.187283 0.330175 0.640612
+v 1.187283 0.209969 1.085557
+v 1.186590 1.499776 1.191882
+usemtl material3
+f 9918 9919 9920 9921
+f 9919 9922 9923 9920
+f 9922 9924 9925 9923
+f 9924 9926 9927 9925
+f 9926 9928 9929 9927
+f 9928 9930 9931 9929</code></pre>
+
+<p>The <code>MTL</code> file sample fragment follows, the material <code>material3</code> transparency <code>d</code> is <code>0.5</code>, <code>kd</code> represents <code>diffuse</code> color for <code>[0.58 0.58 0.58]</code>, and the tiling path is <code>/smokeAlarm.jpg</code></p>
+
+<pre><code>newmtl material3
+    d 0.5
+    Kd 0.58 0.58 0.588
+    map_Kd /SmokeAlarm.jpg</code></pre>
+
+<div id="ref_parseobj"></div>
+
+<h2>Parse OBJ</h2>
+
+<p><code>ht.Default.parseObj(objText, mtlText, params)</code> function is used to parse <code>obj</code> and <code>MTL</code> files, which are parsed back to the <code>map</code> structure, in <code>json</code> object, each material name corresponds to a model information, and the model information format is the <code>HT</code> custom model format standard describes in <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_register">Modeling Manual</a>.</p>
+
+<ul><li><code>objText</code>: Text content in <code>OBJ</code> format</li><li><code>mtlText</code>: <code>MTL</code> format of the text content, no material information can also input <code>null</code></li><li><code>params</code>: <code>JSON</code> format control parameters</li></ul>
+
+<p>The <code>param</code> parameter is described as follows:</p>
+
+<ul><li><code>mat</code>: Matrix variation parameters that can be import after matrix changes for model, generally constructs the change matrix through <code>ht.Default.createMatrix</code> function</li><li><code>s3</code>: Size variation parameter, format <code>[sx, sy, sz]</code></li><li><code>r3</code>: Rotate variation parameter, format <code>[rx, ry, rz]</code></li><li><code>rotationMode</code>: Rotate mode parameter, preferable value:<ul><li><code>xyz</code>: First rotate the <code>x</code> axis, then rotate the <code>y</code> axis, and finally rotate the <code>z</code> axis</li><li><code>xzy</code>: First rotate the <code>x</code> axis, then rotate the <code>z</code> axis, and finally rotate the <code>y</code> axis</li><li><code>yxz</code>: First rotate the <code>y</code> axis, then rotate the <code>x</code> axis, and finally rotate the <code>z</code> axis</li><li><code>yzx</code>: First rotate the <code>y</code> axis, then rotate the <code>z</code> axis, and finally rotate the <code>x</code> axis</li><li><code>zxy</code>: First rotate the <code>z</code> axis, then rotate the <code>x</code> axis, and finally rotate the <code>y</code> axis</li><li><code>zyx</code>: First rotate the <code>z</code> axis, then rotate the <code>y</code> axis, and finally rotate the <code>x</code> axis</li></ul></li><li><code>t3</code>: Positional variation parameters, format <code>[tx, ty, tz]</code>        </li><li><code>center</code>: Whether the model is centered, the default is <code>false</code> and set to <code>true</code> to move the model position to center its contents</li><li><code>cube</code>: Whether to scale the model to the size range of the unit <code>1</code>, the default is <code>true</code></li><li><code>ignoreMtls</code>: Ignore part of the material, the default is NULL represents read all, the format is <code>[&#39;material2&#39;, &#39;material3&#39;]</code> array, the ignoring material does not appear in the return value</li><li><code>ignoreTransparent</code>: Ignore <code>d</code> property material transparency, default to <code>false</code> means read <code>d</code> value, read this property will affect the <code>transparent</code> and <code>opacity</code> properties of the return value</li><li><code>ignoreColor</code>: Ignore the <code>kd</code> property material color, the default is <code>false</code> means read <code>kd</code> value, which is named <code>color</code> in the return value</li><li><code>ignoreImage</code>: Ignore tile <code>map_kd</code> property, the default is <code>false</code> means read <code>map_kd</code> value, which is named <code>image</code> in return value</li><li><code>ignoreNormal</code>: Ignore normal vector, the default is <code>false</code> to read normal vector information, set to <code>true</code> to ignore the no-read method line vector information</li><li><code>prefix</code>: The image path prefix, which is the prefix added before the <code>map_kd</code> value, if the relative path is a refer to the path that loads <code>obj&#39;s</code> <code>html</code> page</li><li><code>flipY</code>: Picture upside down, the default is <code>false</code>, encountered in the model picture upside down situation can set this parameter is <code>true</code></li><li><code>flipFace</code>: Default to <code>false</code>, set to <code>true</code> means flip all the surfaces of the model, that is, the original front to the opposite side, the original negative turn to be positive </li><li><code>reverseFlipMtls</code>: Model on the reverse side of the same content, the incoming <code>*</code> representative for all materials, into the <code>[&#39;material2&#39;, &#39;material3&#39;]</code> array format representative applicable to the specified material</li><li><code>shape3d</code>: If the <code>shape3d</code> name is specified, the <code>HT</code> will automatically register the method of building an array of all material models that are parsed after it is loaded</li></ul>
+
+<p><iframe src="examples/example_equipment.html" style="height:350px"></iframe></p>
+
+<p>The <code>MTL</code> format has many parameters, currently <code>HT</code> only supports <code>d</code>, <code>kd</code> and <code>map_kd</code>, which represent the three parameters of transparency, color and tile, and the format criteria for <code>OBJ</code> and <code>MTL</code> refer to <a href="http://www.martinreddy.net/gfx/3d/OBJ.spec">here</a>. </p>
+
+<pre><code>map_Kd -o 0.1000 0.1200 0.0000 -s 45.0000 20.0000 0.0000 project/images/floor.jpg</code></pre>
+
+<p>As shown in the tiling parameter <code>map_Kd</code>, where <code>-o</code> corresponds to <code>uv.offset</code> tile-migration parameters; <code>-s</code> is equivalent to <code>uv.scale</code> tiling multiple parameters.
+For <code>-o</code> and <code>-s</code>, these two properties <code>HT</code> only read the first two parameters, ignoring the third parameter. The picture path automatically increases the prefix for the <code>prefix</code> parameter, and if the picture is the relative path, it is relative to the final run <code>html</code> page and can also be set to the picture name registered in <code>ht.Default.setImage(name, ...)</code></p>
+
+<p><img src="data:image/jpeg;base64,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"></p>
+
+<p>If the <code>ignoreNormal</code> set to <code>true</code> ignores normal vectors, or the exported <code>OBJ</code> file does not contain normal vector information, <code>HT</code> automatically constructs the corresponding <code>ns</code> normal vector information, but for special surface effects, or smooth interface rendering with fewer vertices, you often need to specify the normal vector for each vertex, and you can refer to <a href="http://en.wikipedia.org/wiki/Phong_shading">Phong Shading</a> for comprehension, overview <a href="#ref_overview">examples</a> chapter, it is found that the model surface of <code>ignoreNormal</code> set to <code>true</code> is more abrupt and angular than that of normal vector model smoothing.</p>
+
+<p>The geometric transformation order of the model is: <code>mat</code> -&gt; <code>s3</code> -&gt; <code>r3</code> -&gt; <code>t3</code> -&gt; <code>center</code> -&gt; <code>cube</code>.
+General settings <code>s3</code>, <code>r3</code> and <code>t3</code> can meet most of the requirements, but the need for more complex matrix transformations, can constructs the <code>mat</code> matrix parameter through <code>ht.Default.createMatrix</code>, and the case of the <code>mat</code> parameter is often used in the case where the shape of the model needs to be bound to the data model value:</p>
+
+<p><iframe src="examples/example_meter.html" style="height:400px"></iframe></p>
+
+<pre><code>modelMap.pointer.mat = {
+    func: function (data){
+        var start = Math.PI * 0.736,
+            range = Math.PI * 1.46,   
+            angle = start - range * data.a(&#39;value&#39;) / 100;
+        return ht.Default.createMatrix([
+            { t3: [0, -75, 0] },
+            { r3: [Math.PI/4, 0, 0] },
+            { r3: [0, 0, angle] },
+            { r3: [-Math.PI/4, 0, 0] },
+            { t3: [0, 75, 0]  }
+        ]);
+    }
+};</code></pre>
+
+<p>The above code means the <code>pointer</code> table pointer model, first through <code>t3: [0, 75, 0]</code> moves down <code>75</code> along the <code>y</code> axis, making the pointer rotate point at the origin of the coordinate, then <code>r3: [Math.PI/4, 0, 0]</code> rotate along <code>x</code> axis radian of the <code>Math.PI/4</code>, which makes the pointer stand upright on the <code>xy</code> plane, then proceed <code>r3: [0, 0, angle]</code> the angle of rotation of the <code>angle</code> value along the <code>z</code> axis, and finally through <code>r3: [-math.PI/4, 0, 0]</code> and <code>t3: [0, 75, 0]</code> rotate and move the pointer back to the original position, thus implementing data binding for the pointer rotation angle and <code>data.a(&#39;meter.value&#39;)</code>.</p>
+
+<blockquote><p>Through <code>ht.Default.parseObj</code> parsed <code>json</code> object with <code>map</code> structure, each material name corresponds to a model information, and if the <code>cube</code> parameter is <code>true</code>, then each model information returned will have a <code>rawS3</code> special parameter, and the incoming <code>param</code> parameter also increases the <code>rawS3</code> attribute information, which is the maximum size range for all model combinations before unit cubism, so the <code>rawS3</code> value in each model is the same.</p></blockquote>
+
+<div id="ref_importmodel"></div>
+
+<h2>Import Model</h2>
+
+<p>To bind an <code>OBJ</code> parsed model information to an data, you need to call the <a href="../../plug-in/modeling/ht-modeling-guide.html">Modeling Manual</a> <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_register">Model Registration</a> section describes the <code>ht.Default.setShape3dModel(name, model)</code> function is registered, and then the data sets the <code>style</code> <code>shape3d</code> property to the registered name.</p>
+
+<p><iframe src="examples/example_objajax.html" style="height:320px"></iframe></p>
+
+<p>The above example constructs two motorcycle models, they all read to the same <code>OBJ</code> file information, the name is <code>Separate Scooter</code> motorcycle, is has by a bunch of <code>Node</code>, each other <code>host</code> adsorption to a ring, when the user drags the rotation operation feels like a whole, in this way each part can be independently selected, dyed and hidden operations.</p>
+
+<p>If you need correspond to only a <code>Node</code> data in the entire motorcycle model, you can use the example labeled <code>One Node</code> way in the motorcycle, all materials corresponding to the model into an <code>array</code> arrays, registered through <code>ht.Default.setShape3dModel(&#39;scooter&#39;, array)</code> so that the model of <code>scooter</code> name will have the full <code>OBJ</code> model information, see the model combination of the chapter of <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_group">Modeling Manual</a>.</p>
+
+<pre><code>for(var name in modelMap){                    
+    var model = modelMap[name];   
+    var shape3d = &#39;scooter:&#39; + name;
+
+    ht.Default.setShape3dModel(shape3d, model);
+    array.push(model);                    
+
+    var node = new ht.Node();
+    node.s({
+        &#39;shape3d&#39;: shape3d
+    });                                                               
+    node.setHost(lastNode);
+    ...
+}
+
+ht.Default.setShape3dModel(&#39;scooter&#39;, array);
+var node = new ht.Node();
+node.s(&#39;shape3d&#39;, &#39;scooter&#39;);                </code></pre>
+
+<p>The <code>s3</code> size parameter of <code>Node</code> affects the final rendering of the model, the final rendered model size will be multiplied by the size of the <code>OBJ</code> geometry model that corresponds to the <code>s3</code> size of the <code>Node</code>, meaning if the <code>rawS3</code> size of the <code>OBJ</code> model is imported <code>[10, 20, 30]</code>, then if <code>Node</code> of <code>s3</code> for <code>[10, 5, 3]</code>, then finally renders in the size of the interface <code>[10*10, 20*5, 30*3]</code>.</p>
+
+<p>If the size of the model is not affected by the <code>s3</code> of <code>Node</code>, you can set <code>shape3d.scaleable</code> to <code>false</code> and the value defaults to <code>true</code>.
+So if the model size is affected by <code>s3</code>, generally when the model imported, the <code>cube</code> parameter is set to <code>true</code>, the imported model is scaled to the <code>[1, 1, 1]</code> unit cube, and then the <code>s3</code> parameter of the corresponding <code>Node</code> data is set to the <code>rawS3</code> parameter of the parsed model, this parameter represents the size of the <code>OBJ</code> model before scaling to the unit cube.</p>
+
+<div id="ref_ajax"></div>
+
+<h3>Parse AJAX</h3>
+
+<p>The above example loads the <code>OBJ</code> file using the <code>AJAX</code> by building two <code>XMLHttpRequest</code> objects, acquiring <code>obj</code> and <code>mtl</code> files separately through <code>AJAX</code>, and parsing after the data <code>onload</code>.</p>
+
+<pre><code>load(&#39;obj/scooter.mtl&#39;, &#39;obj/scooter.obj&#39;);
+
+function load(mtlUrl, objUrl){
+    var xhr1 = new XMLHttpRequest();
+    xhr1.onload = function (e){                
+        var mtlText = e.target.responseText;
+        var xhr2 = new XMLHttpRequest();
+        xhr2.onload = function (e){
+            var objText = e.target.responseText;
+            parse(mtlText, objText);                                                                               
+        };
+        xhr2.open(&#39;GET&#39;, objUrl, true);
+        xhr2.send(null);                     
+    };                
+    xhr1.open(&#39;GET&#39;, mtlUrl, true);
+    xhr1.send(null);                                               
+}</code></pre>
+
+<div id="ref_loadobj"></div>
+
+<h3>loadObj Function</h3>
+
+<p>The following example also implements the same functionality, but uses the <code>ht.Default.loadObj</code> more convenient function provide by <code>HT</code>.</p>
+
+<p><iframe src="examples/example_loadobj.html" style="height:320px"></iframe></p>
+
+<p><code>ht.Default.loadObj(objUrl, mtlUrl, params)</code>:</p>
+
+<ul><li><code>objUrl</code>: <code>OBJ</code> file path</li><li><code>mtlUrl</code>: <code>MTL</code> file path</li><li><code>params</code>: <code>JSON</code> structural parameters can be set <code>ht.Default.parseObj(text, mtlMap, params)</code> to control information for the third parameter type and add the following parameters<ul><li><code>sync</code>: Whether synchronization parameters, default to <code>false</code> for asynchronous loading, set to <code>true</code> for synchronous loading, meaning that data is loaded before running <code>loadObj</code> code    </li><li><code>finishFunc: function (modelMap, array, rawS3){}</code>: For callback processing after loading<ul><li><code>modelMap</code>: Call <code>ht.Default.parseObj</code> parsed return value, return NULL if load or parse failed</li><li><code>array</code>: An array of all material models</li><li><code>rawS3</code>: Contains the original dimensions of all models</li></ul></li></ul></li></ul>
+
+<div id="ref_string"></div>
+
+<h3>Insert String</h3>
+
+<p><a href="../../core/serialization/ht-serialization-guide.html">Serialization</a> manual example to obtain the <code>OBJ</code> and <code>MTL</code> text content in a more specific way, the model information content stored in the <code>function</code> annotation, converts <code>function</code> to a string and then trims the back end to take the middle actual model content part, the traditional way of <code>.obj</code> and <code>.mtl</code> is stored on the service side, and the client uses <code>AJAX</code> to parse the contents of the file separately, using the method of intercepting the annotation string, avoids cross-domain security access restrictions, which can be run directly from the browser.</p>
+
+<pre><code>var scooter_mtl = getRawText(function (){/*
+
+newmtl Black
+Ns 190.196078
+Ka 0.000000 0.000000 0.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.100000 0.100000 0.100000
+Ni 1.000000
+d 1.000000
+illum 2
+...
+
+*/});
+
+function getRawText(obj){
+    var text = String(obj); 
+    return text.substring(14, text.length-3);
+} </code></pre>
+
+<div id="ref_doorwindow"></div>
+
+<h2>Door and Window Application</h2>
+
+<p>Another application of the <code>OBJ</code> import model is with <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_csgnode">CSGNode</a>, especially the construction of windows and doors, can be used <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_csgnode">CSGNode</a> to knock out, set the <code>shape3d</code> property of the data <code>style</code> to <code>OBJ</code> to import the registered model, making the data appear as a more real <code>OBJ</code> windows and doors modeling effect.</p>
+
+<p>Combine <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_doorwindow">DoorWindow</a> type to achieve open door and window effect, the following example shows the <code>OBJ</code> import model with <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_csgnode">CSGNode</a> and <a href="../../plug-in/modeling/ht-modeling-guide.html#ref_doorwindow">DoorWindow</a> two types of combined windows and doors application scenes:</p>
+
+<p><iframe src="examples/example_room.html" style="height:320px"></iframe></p>    <hr id="contact" style="margin: 20px 0 1px 0">
+    <a href="http://www.hightopo.com"><img class="logo"></a>Welcome to contact us <a href="mailto:service@hightopo.com">service@hightopo.com</a>
+</body>
+</html>

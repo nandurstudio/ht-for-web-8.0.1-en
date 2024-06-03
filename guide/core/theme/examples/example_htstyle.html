@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ht.Style</title>
+        <meta charset="UTF-8">
+        <style>
+            html, body, pre {
+                padding: 0px;
+                margin: 0px;
+            }
+        </style>
+        <script src="../../../../lib/core/ht.js"></script>
+        <script src="./htstyle_comment_map.js"></script>
+        <script>
+            function init(){
+                var list = [];
+                for(var key in ht.Style){
+                    if(key.indexOf('all.') === 0){
+                        key = key.slice(3);
+                        list.push('front' + key);
+                        list.push('back' + key);
+                        list.push('left' + key);
+                        list.push('right' + key);
+                        list.push('top' + key);
+                        list.push('bottom' + key);
+                    }
+                }
+                list.forEach(function(name){
+                   ht.Style[name] = undefined;
+                });
+
+                var globalStyle = {};
+                [
+                    'highlight.type',
+                    'highlight.width',
+                    'highlight.color',
+                    'highlight.glow',
+                    'highlight.strength',
+                    'color.empty',
+                    'state',
+                    'shape.gradient.pack',
+                    'texture.wrap'
+                ].forEach(function (k) { globalStyle[k] = 1; });
+
+                var json = {};
+                for(var key in ht.Style){
+                    if (globalStyle[key]) continue;
+
+                    var comment = commentMap[key];
+                    if (!comment) {
+                        console.info(key);
+                        continue;
+                    }
+                    
+                    var str, value = ht.Style[key];
+                    if (value instanceof Array)
+                        str = '[' + value.join(',') + '], ';
+                    else
+                        str = value + '，';
+
+                    json[key] = str + comment;
+                }
+
+                document.getElementById('output').innerHTML = JSON.stringify(json, null, 4);
+            }
+        </script>
+    </head>
+    <body onload="init();">
+        <pre id="output"></pre>
+    </body>
+</html>

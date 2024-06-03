@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Structure</title>
+        <meta charset="UTF-8">   
+        <style>
+            html, body {
+                padding: 0px;
+                margin: 0px;                
+            }            
+            .main {
+                margin: 0px;
+                padding: 0px;
+                position: absolute;
+                top: 0px;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+            }
+        </style>     
+        <script src="../../../../lib/core/ht.js"></script>   
+        <script src="../../../../lib/plugin/ht-form.js"></script>    
+        <script>
+
+            function init(){                     
+                toolbar = new ht.widget.Toolbar();                     
+                                               
+                dataModel = new ht.DataModel();
+                treeTablePane = new ht.widget.TreeTablePane(dataModel);                
+
+                borderPane = new ht.widget.BorderPane();                
+                borderPane.setTopView(toolbar);
+                borderPane.setCenterView(treeTablePane); 
+
+                view = borderPane.getView();
+                view.className = 'main';
+                document.body.appendChild(view);    
+                window.addEventListener('resize', function (e) {
+                    borderPane.invalidate();
+                }, false);                                                  
+                
+                tableHeader = treeTablePane.getTableHeader();
+                if(!ht.Default.isTouchable){
+                    tableHeader.getView().style.background = 'url(images/header.png) repeat-x';
+                }                
+                tableHeader.setColumnLineColor('#C8C8C8');
+                tableHeader.setInsertColor('#6DCDF3');                  
+                
+                treeTableView = treeTablePane.getTableView();  
+                treeColumn = treeTableView.getTreeColumn();
+                treeColumn.setDisplayName('Directory Structure');
+                treeColumn.setAlign('center');
+                treeColumn.setWidth(260);
+                
+                treeTableView.addColumns([
+                    {
+                        displayName: 'File Path',
+                        width: 160,
+                        getValue: function(data){
+                            return data.a('js') || data.getName();
+                        },
+                        drawCell: function (g, data, selected, column, x, y, w, h) {
+                            var guide_url = data.a('guide_url');
+                            if(guide_url){
+                                var name = data.getName(),                                    
+                                    href = createHref(guide_url, h);                                
+                                href.setAttribute('title', name);
+                                href.innerHTML = 'ht-' + name + '-guide.html';
+                                return href;  
+                            }
+                            var js_url = data.a('js_url');
+                            if(js_url){
+                                var js = data.a('js'),                                    
+                                    href = createHref(js_url, h);                                
+                                href.setAttribute('title', js);
+                                href.innerHTML = js;
+                                return href;  
+                            }
+                        }
+                    },                           
+                    {
+                        name: 'description',  
+                        displayName: 'Description',
+                        accessType: 'attr',
+                        width: 500,
+                        sortable: false
+                    }                            
+                ]);                             
+                
+                treeTableView.drawRowBackground = function(g, data, selected, x, y, width, height){                    
+                    if((!this.getCheckMode() && selected) || 
+                        (this.getCheckMode() && data === this.getFocusData())) {
+                        g.fillStyle = '#87A6CB';
+                    }
+                    else if(this.getRowIndex(data) % 2 === 0){
+                        g.fillStyle = '#F1F4F7';
+                    }
+                    else{
+                        g.fillStyle = '#FAFAFA';
+                    }
+                    g.beginPath();
+                    g.rect(x, y, width, height);
+                    g.fill();
+                };
+                treeTableView.isChildrenSortable = function(data){
+                    if(data){
+                        var name = data.getName();
+                        return name === 'core' || name === 'plugin';
+                    }
+                    return false;
+                };
+                if(!ht.Default.isTouchable){
+                    toolbar.getView().style.background = 'url(images/header.png) repeat-x';                
+                }                
+                toolbar.setItems([                    
+                    {
+                        id: 'text',
+                        label: 'Search',
+                        icon: 'images/search.png',
+                        unfocusable: true,   
+                        textField: {
+                            width: 120
+                        }
+                    },
+                    'separator',
+                    {
+                        label: 'Check Mode:',
+                        unfocusable: true,                        
+                        comboBox: {
+                            width: 120,
+                            values: [null, 'all', 'descendant', 'children', 'default'],
+                            onValueChanged: function(){
+                                treeTableView.sm().cs();
+                                treeTableView.setCheckMode(this.getValue());
+                            }                            
+                        }
+                    }                   
+                ]);         
+                
+                textField = toolbar.getItemById('text').element;
+                textField.getElement().onkeyup = function(e){
+                    if(e.keyCode === 27){
+                        textField.getElement().value = '';
+                    }
+                    treeTableView.invalidateModel();
+                };
+                treeTableView.setVisibleFunc(function(data){   
+                    if(data.isEmpty()){
+                        var text = toolbar.v('text');
+                        if(text){                        
+                            return data.getName().toLowerCase().indexOf(text.toLowerCase()) >= 0;
+                        }   
+                    }
+                    return true;
+                });                 
+                
+                initModel();
+                treeTableView.expandAll();                          
+            }              
+
+            function createHref(url, height){
+                var href = document.createElement('a');
+                href.setAttribute('href', url);
+                href.setAttribute('target', '_blank');
+                href.style.whiteSpace = 'nowrap';
+                href.style.font = ht.Default.labelFont;
+                href.style.paddingLeft = '4px';
+                href.onParentAdded = function(div){
+                    div.style.lineHeight = height + 'px';                                    
+                    div.style.verticalAlign = 'middle';
+                };
+                return href;             
+            }
+
+            function initModel(){
+                root = create('HT for Web');
+                    guide = create('guide', root, 'Development Manuals');
+                        core = create('core', guide, 'Core Manuals Catalogue');
+                            createGuide('beginners', core, 'Beginners Manual');
+                            createGuide('datamodel', core, 'DataModel Manual');  
+                            createGuide('vector', core, 'Vector Manual');
+                            createGuide('3d', core, '3D Manual');        
+                            createGuide('theme', core, 'Theme Manual');   
+                            createGuide('schedule', core, 'Schedule Manual');   
+                            createGuide('position', core, 'Position Manual'); 
+                            createGuide('shape', core, 'Shape Manual'); 
+                            createGuide('serialization', core, 'Serialization Manual');
+                            createGuide('batch', core, 'Batch Manual');
+                            createGuide('lighting', core, 'Light Manual');
+                            createGuide('propertyview', core, 'Property Component Manual');        
+                            createGuide('listview', core, 'Listview Component Manual');        
+                            createGuide('treeview', core, 'Tree Component Manual');        
+                            createGuide('tableview', core, 'Table Component Manual');        
+                            createGuide('treetableview', core, 'TreeTableView Component Manual');
+                            createGuide('toolbar', core, 'Toolbar Component Manual');        
+                            createGuide('splitview', core, 'SplitView Component Manual'); 
+                            createGuide('borderpane', core, 'BorderPane Component Manual');                               
+                            createGuide('accordionview', core, 'AccordionView Component Manual');
+                            createGuide('tabview', core, 'TabView Component Manual');
+                            createGuide('databinding', core, 'DataBinding Manual');
+                            createGuide('debugtip', core, 'Debugtip Manual');
+                        plugin = create('plugin', guide, 'Extended Manual Catalog');
+                            createGuide('autolayout', plugin, 'Automatic Layout Manual');
+                            createGuide('forcelayout', plugin, 'Force-oriented Layout Manual');
+                            createGuide('modeling', plugin, 'Modeling Manual');
+                            createGuide('obj', plugin, 'OBJ Manual');
+                            createGuide('edgetype', plugin, 'Edge-Type Manual');
+                            createGuide('overview', plugin, 'Overview Manual');    
+                            createGuide('propertypane', plugin, 'PropertyPane Manual');
+                            createGuide('form', plugin, 'FormPane Manual');
+                            createGuide('quickfinder', plugin, 'Quick Finder Manual');
+                            createGuide('animation', plugin, 'Animation Manual');
+                            createGuide('cssanimation', plugin, 'CSS Animation Manual');
+                            createGuide('htmlnode', plugin, 'HtmlNode Manual');  
+                            createGuide('dialog', plugin, 'Dialog Box Manual');
+                            createGuide('palette', plugin, 'Palette Manual');   
+                            createGuide('menu', plugin, 'Menu Manual');        
+                            createGuide('contextmenu', plugin, 'Context Menu Manual');        
+                            createGuide('rulerframe', plugin, 'Ruler Frame Manual');
+                            createGuide('xeditinteractor', plugin, 'Edit Interactive Manual'); 
+                            createGuide('flow', plugin, 'Flow Manual'); 
+                            createGuide('dashflow', plugin, 'Dashed Line Flow Manual'); 
+                            createGuide('panel', plugin, 'Panel Manual');             
+                            createGuide('live', plugin, 'Interactive Data Manual');
+                            createGuide('telecom', plugin, 'Telecom Extension Manual'); 
+                            createGuide('historymanager', plugin, 'Undo Redo Manual'); 
+            }
+                       
+            function create(name, parent, description){
+                var data = new ht.Data();
+                data.setName(name);
+                data.a('description', description);
+                data.setParent(parent);
+                dataModel.add(data);
+                return data;
+            }
+            
+            function createLib(js, parent, description){                
+                var data = create(js, parent, description),
+                    package = parent === core ? 'core' : 'plugin';
+                data.a('js_url', '../../../../lib/' + package + '/' + js);  
+                data.a('js', js);
+                return data;
+            }
+            
+            function createGuide(name, parent, description){
+                var data = create(name, parent, description),
+                    package = parent === core ? 'core' : 'plugin';   
+                data.a('guide_url', '../../../' + package + '/' + name + '/ht-' + name + '-guide.html');                
+                return data;
+            }
+            
+        </script>
+    </head>
+    <body onload="init();">
+        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000279011'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1000279011%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+    </body>
+</html>
